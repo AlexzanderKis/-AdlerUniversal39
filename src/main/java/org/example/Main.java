@@ -8,8 +8,7 @@ public class Main {
         Scanner readScan = new Scanner(System.in);
         System.out.println("Hello and welcome to Overlook hotel!");
 
-        while(true) {
-            if (readScan.hasNext("q")) { break; }
+        while (!readScan.hasNext("q")) {
             for (int i = 0; i <= 1; i++) {
                 System.out.println("All work and no play makes Jack a dull boy.");
             }
