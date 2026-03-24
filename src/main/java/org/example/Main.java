@@ -1,14 +1,20 @@
 package org.example;
 
-import java.util.*;
+import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         System.out.println("Hello and welcome to Overlook hotel!");
         String readScan = new Scanner(System.in).next();
-
         while (true) {
-                System.out.println("All work and no play makes "+readScan+" a dull boy.");
+            int rndInt = ThreadLocalRandom.current().nextInt(200, 2000 + 1);
+            System.out.println("All work and no play makes " + readScan + " a dull boy. " + rndInt+"ms");
+            try {
+                Thread.sleep(rndInt);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
