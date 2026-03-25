@@ -3,8 +3,8 @@ package org.example;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello and welcome to Overlook hotel");
-        TypeController typeController = new TypeController();
-        new Thread(typeController).start();
+//        TypeController typeController = new TypeController();
+        new Thread(new TypeController()).start();
 /**
         String readNameLine = new Scanner(System.in).next();
         while (true) {
