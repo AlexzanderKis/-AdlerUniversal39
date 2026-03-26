@@ -13,22 +13,6 @@ public class TypeController implements Runnable {
 //                AtomicReference<String> textLine = new AtomicReference<>("All work and no play makes " + readNameLine + " a dull boy.\n");
 //                char[] chars = textLine.toCharArray();
                 String textLine = "All work and no play makes "+readNameLine+" a dull boy.\n"; // строка с текстом и именем которое вводит пользователь
-//                StringBuilder stringBuilder = new StringBuilder(textLine);
-//                Random random = new Random();
-//                String pool = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm[];,./{}:'<>?";
-//                for (int j = 0; j < 4; j++){
-//                    int index = random.nextInt(stringBuilder.length());
-//                    char rndChar = pool.charAt(random.nextInt(pool.charAt(index)));
-//                    stringBuilder.setCharAt(index, rndChar);
-//                }
-
-//                char[] chars = textLine.toCharArray();
-//                for (char c : chars) {
-//                    int rndDelay = ThreadLocalRandom.current().nextInt(30, 500 + 1);
-//                    Thread.sleep(rndDelay);
-//                    System.out.print(textLine.charAt(c));
-//                }
-
                 for (int i = 0; i < textLine.length(); i++){ // цикл с рандомной задержкой печати
                     int rndDelay = ThreadLocalRandom.current().nextInt(30, 500 + 1);
                     Thread.sleep(rndDelay);
@@ -39,4 +23,22 @@ public class TypeController implements Runnable {
             }
         }
     }
-}
+
+//    public String randomMistyping() {
+//        StringBuilder stringBuilder = new StringBuilder(textLine);
+//        Random random = new Random();
+//        String pool = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm[];,./{}:'<>?";
+//        for (int j = 0; j < 4; j++) {
+//            int index = random.nextInt(stringBuilder.length());
+//            char rndChar = pool.charAt(random.nextInt(pool.charAt(index)));
+//            stringBuilder.setCharAt(index, rndChar);
+//        }
+//        return pool;
+//        char[] chars = textLine.toCharArray();
+//        for (char c : chars) {
+//            int rndDelay = ThreadLocalRandom.current().nextInt(30, 500 + 1);
+//            Thread.sleep(rndDelay);
+//            System.out.print(textLine.charAt(c));
+//        }
+//    }
+//}
