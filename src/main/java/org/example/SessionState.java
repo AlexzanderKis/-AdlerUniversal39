@@ -1,7 +1,6 @@
 package org.example;
 
 import java.util.Scanner;
-import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
