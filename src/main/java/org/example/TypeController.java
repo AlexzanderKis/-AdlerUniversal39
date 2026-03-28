@@ -1,7 +1,6 @@
 package org.example;
 
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TypeController implements Runnable {
@@ -25,6 +24,29 @@ public class TypeController implements Runnable {
     public String randomMistypingGen(String textLine) {
         StringBuilder stringBuilder = new StringBuilder();
         Random random = new Random();
+        Map<Character, String> qwertyMap = new HashMap<>();
+        qwertyMap.put('a', "sd");
+        qwertyMap.put('b', "vn ");
+        qwertyMap.put('c', "xvf");
+        qwertyMap.put('d', "fse");
+        qwertyMap.put('e', "rtw");
+        qwertyMap.put('o', "ip[");
+        qwertyMap.put('k', "jl;");
+        qwertyMap.put('n', "bm,");
+        qwertyMap.put('p', "o[-r");
+        qwertyMap.put('s', "adf");
+        qwertyMap.put('u', "yij");
+        qwertyMap.put('A', "SD");
+        qwertyMap.put('B', "VN ");
+        qwertyMap.put('C', "XVF");
+        qwertyMap.put('D', "FSE");
+        qwertyMap.put('E', "RTW");
+        qwertyMap.put('O', "IP{");
+        qwertyMap.put('K', "JL:");
+        qwertyMap.put('N', "BM<");
+        qwertyMap.put('P', "OR{_");
+        qwertyMap.put('S', "ADF");
+        qwertyMap.put('U', "YIJ");
 //        String pool = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm[];,./{}:'<>?";
 //        char[] poolChars = pool.toCharArray();
 //        for (char p : poolChars) {
@@ -32,24 +54,30 @@ public class TypeController implements Runnable {
         char[] chars = textLine.toCharArray();
         for (char c : chars) { // проходим по массиву из букв
             int errorChance = random.nextInt(1,100); // Генерирует от 0 до 99
-            if (errorChance >= 50) { // % на ошибку
+            if (errorChance >= 98.5) { // % на ошибку
                 int errorType = random.nextInt(4); // типы ошибок
+
                 switch (errorType) {
                     case 0 -> { // Двойное нажатие (например, 'k' превращается в 'kk')
-                        if (textLine.equals(" ") || textLine.equals(".") || textLine.equals("\n")) {
-                            stringBuilder.append(c);
-                        } else { stringBuilder.repeat(c, 2); } }
-                    case 1 -> { // Пропуск буквы (буква просто не печатается)
-                        if (!stringBuilder.isEmpty() || textLine.equals(".")) { // проверка если stringBuilder не пустой
-                            int charPos = random.nextInt(textLine.length()); // берём рандомную букву на всей длине stringBuilder
-                            stringBuilder.deleteCharAt(charPos); // удаляем букву на рандомной позиции
+                        if (Character.isLetter(c)) {
+                            stringBuilder.repeat(c, 2); // before Java 21 -> stringBuilder.append(c).append(c);
                         } else { stringBuilder.append(c); } }
-                    case 3 -> { // Переводит рандомную букву в заглавную
-                        if (!stringBuilder.isEmpty() && Character.isLetter(c) != textLine.equals(" ") || textLine.equals(".") || textLine.equals("\n")) {
-                            int charPos = random.nextInt(textLine.length());
-                            stringBuilder.setCharAt(charPos, Character.toUpperCase(c));
-                        } stringBuilder.append(c); }
+
+                    case 1 -> { // Пропуск буквы (буква просто не печатается)
+                        if (!stringBuilder.isEmpty() && Character.isLetter(c) || Character.isSpaceChar(c) && !Character.isTitleCase(c)) // проверка если stringBuilder не пустой
+                            { /* empty body */ } else { stringBuilder.append(c); } }
+
+                    case 2 -> { // Переводит рандомную букву в заглавную
+                        if (Character.isLetter(c)) {
+                            stringBuilder.append(Character.toUpperCase(c));
+                        } else { stringBuilder.append(c); } }
+                    case 3 -> {
+                        if (Character.isLetter(c) && qwertyMap.containsKey(c)){
+                            int rndMapValCharPos = random.nextInt(qwertyMap.get(c).length()); // values = qwertyMap.get(c);
+                            stringBuilder.append(qwertyMap.get(c).charAt(rndMapValCharPos));
+                        }
                     }
+                }
             } else {
                 stringBuilder.append(c); // Добавляем правильную букву
             }
