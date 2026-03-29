@@ -1,17 +1,25 @@
 package org.example;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TypeController implements Runnable {
-    //    public volatile String readNameLine = "Jack";
-    String readNameLine = new Scanner(System.in).next();
+//    String readNameLine = new Scanner(System.in).next();
 
+    public volatile String readNameLine = "Jack";
+
+//    public TypeController(){
+//        this.readNameLine = ;
+//    }
+//
+    public void setReadNameLine(String readNameLine) {
+        this.readNameLine = readNameLine;
+    }
     @Override
-    public void run() {
-//        String readNameLine = new Scanner(System.in).next();
-        String textLine = "All work and no play makes " + readNameLine + " a dull boy.\n"; // строка с текстом и именем которое вводит пользователь
+    public void run() { // запуск потока
         while (true) { // цикл печати
+            String textLine = "All work and no play makes " + readNameLine + " a dull boy.\n"; // строка с текстом и именем которое вводит пользователь
             try {
                 for (int i = 0; i < textLine.length(); i++) { // цикл с рандомной задержкой печати
                     int rndDelay = ThreadLocalRandom.current().nextInt(30, 200 + 1);
@@ -25,11 +33,11 @@ public class TypeController implements Runnable {
     public String randomMistypingGen(String textLine) {
         StringBuilder stringBuilder = new StringBuilder();
         Random random = new Random();
-        Map<Character, String> qwertyMap = getCharacterStringMap();
+        HashMap<Character, String> qwertyMap = getCharacterStringMap();
         char[] chars = textLine.toCharArray();
         for (char c : chars) { // проходим по массиву из букв
             double errorChance = random.nextInt(1, 100); // Генерирует от 0 до 99
-            if (errorChance >= 98) { // % на ошибку
+            if (errorChance >= 98.5) { // % на ошибку
                 int errorType = random.nextInt(4); // типы ошибок
 
                 switch (errorType) {
@@ -61,7 +69,7 @@ public class TypeController implements Runnable {
                             int rndMapValCharPos = random.nextInt(qwertyMap.get(c).length()); // values = qwertyMap.get(c);
                             stringBuilder.append(qwertyMap.get(c).charAt(rndMapValCharPos));
                         } else {
-                            stringBuilder.append(c);
+                            stringBuilder.append(c); // TODO: дополнить qwertyMap всеми буквами и убрать это
                         }
                     }
                 }
@@ -86,8 +94,8 @@ public class TypeController implements Runnable {
         return stringBuilder.toString();
     }
 
-    private static Map<Character, String> getCharacterStringMap() {
-        Map<Character, String> qwertyMap = new HashMap<>();
+    private static HashMap<Character, String> getCharacterStringMap() {
+        HashMap<Character, String> qwertyMap = new HashMap<>();
         qwertyMap.put('a', "sw");
         qwertyMap.put('b', "vn ");
         qwertyMap.put('c', "xvf");
