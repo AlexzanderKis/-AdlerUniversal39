@@ -7,13 +7,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class TypewriterService {
-    public volatile String readNameLine = "Jack";
+    String readNameLine = "Jack"; // дефолтное имя
 
     public void setReadNameLine(String readNameLine) {
         this.readNameLine = readNameLine;
     }
 
-    public String randomMistypingGen(String textLine) {
+    public String randomMistypingGen(String textLine) { // Метод ошибок в тексте
         StringBuilder stringBuilder = new StringBuilder();
         ThreadLocalRandom random = ThreadLocalRandom.current();
         char[] chars = textLine.toCharArray();
