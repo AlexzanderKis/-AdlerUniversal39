@@ -1,21 +1,16 @@
 package org.example;
 
 import java.util.HashMap;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TypeController implements Runnable {
-//    String readNameLine = new Scanner(System.in).next();
 
     public volatile String readNameLine = "Jack";
 
-//    public TypeController(){
-//        this.readNameLine = ;
-//    }
-//
     public void setReadNameLine(String readNameLine) {
         this.readNameLine = readNameLine;
     }
+
     @Override
     public void run() { // запуск потока
         while (true) { // цикл печати
@@ -26,18 +21,19 @@ public class TypeController implements Runnable {
                     Thread.sleep(rndDelay);
                     System.out.print(randomMistypingGen(String.valueOf(textLine.charAt(i))));
                 }
-            } catch (InterruptedException e) { e.fillInStackTrace(); }
+            } catch (InterruptedException e) {
+                e.fillInStackTrace();
+            }
         }
     }
 
     public String randomMistypingGen(String textLine) {
         StringBuilder stringBuilder = new StringBuilder();
-        Random random = new Random();
-        HashMap<Character, String> qwertyMap = getCharacterStringMap();
+        ThreadLocalRandom random = ThreadLocalRandom.current();
         char[] chars = textLine.toCharArray();
         for (char c : chars) { // проходим по массиву из букв
-            double errorChance = random.nextInt(1, 100); // Генерирует от 0 до 99
-            if (errorChance >= 98.5) { // % на ошибку
+            double errorChance = random.nextDouble(1, 100); // Генерирует от 1 до 100
+            if (errorChance >= 88.5) { // % на ошибку
                 int errorType = random.nextInt(4); // типы ошибок
 
                 switch (errorType) {
@@ -64,7 +60,7 @@ public class TypeController implements Runnable {
                         }
                     }
 
-                    case 3 -> {
+                    case 3 -> { // Опечатка на соседнюю букву
                         if (Character.isLetter(c) && qwertyMap.containsKey(c)) {
                             int rndMapValCharPos = random.nextInt(qwertyMap.get(c).length()); // values = qwertyMap.get(c);
                             stringBuilder.append(qwertyMap.get(c).charAt(rndMapValCharPos));
@@ -74,25 +70,13 @@ public class TypeController implements Runnable {
                     }
                 }
             } else {
-                stringBuilder.append(c);
-            } // Добавляем правильную букву
-
-/** // % на другие ошибки
-
- if (errorChance >= 99) { // % на ошибку
- int errorType = random.nextInt(4); // типы ошибок
- switch (errorType) {
- case 0 -> { // Двойное нажатие (например, 'k' превращается в 'kk')
- if (Character.isLetter(c)) {
- stringBuilder.repeat(c, 2); // before Java 21 -> stringBuilder.append(c).append(c);
- } else { stringBuilder.append(c); } }
- }
- }
- */
-
+                stringBuilder.append(c); // Добавляем правильную букву
+            }
         }
         return stringBuilder.toString();
     }
+
+    private static final HashMap<Character, String> qwertyMap = getCharacterStringMap();
 
     private static HashMap<Character, String> getCharacterStringMap() {
         HashMap<Character, String> qwertyMap = new HashMap<>();
@@ -108,6 +92,7 @@ public class TypeController implements Runnable {
         qwertyMap.put('s', "adf");
         qwertyMap.put('u', "yij");
         qwertyMap.put('w', "qd");
+
         qwertyMap.put('A', "SD");
         qwertyMap.put('B', "VN ");
         qwertyMap.put('C', "XVF");
@@ -119,6 +104,7 @@ public class TypeController implements Runnable {
         qwertyMap.put('P', "OR_");
         qwertyMap.put('S', "ADF");
         qwertyMap.put('U', "YIJ");
+
         return qwertyMap;
     }
 }
