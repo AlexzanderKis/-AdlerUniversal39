@@ -1,40 +1,26 @@
-package org.example;
+package com.example.AdlerUniversal39;
+
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class TypeController implements Runnable {
-
-    public volatile String readNameLine = "Jack";
+@Service
+public class TypewriterService {
+    String readNameLine = "Jack"; // дефолтное имя
 
     public void setReadNameLine(String readNameLine) {
         this.readNameLine = readNameLine;
     }
 
-    @Override
-    public void run() { // запуск потока
-        while (true) { // цикл печати
-            String textLine = "All work and no play makes " + readNameLine + " a dull boy.\n"; // строка с текстом и именем которое вводит пользователь
-            try {
-                for (int i = 0; i < textLine.length(); i++) { // цикл с рандомной задержкой печати
-                    int rndDelay = ThreadLocalRandom.current().nextInt(30, 200 + 1);
-                    Thread.sleep(rndDelay);
-                    System.out.print(randomMistypingGen(String.valueOf(textLine.charAt(i))));
-                }
-            } catch (InterruptedException e) {
-                e.fillInStackTrace();
-            }
-        }
-    }
-
-    public String randomMistypingGen(String textLine) {
+    public String randomMistypingGen(String textLine) { // Метод ошибок в тексте
         StringBuilder stringBuilder = new StringBuilder();
         ThreadLocalRandom random = ThreadLocalRandom.current();
         char[] chars = textLine.toCharArray();
         for (char c : chars) { // проходим по массиву из букв
             double errorChance = random.nextDouble(1, 100); // Генерирует от 1 до 100
-            if (errorChance >= 88.5) { // % на ошибку
-                int errorType = random.nextInt(4); // типы ошибок
+            if (errorChance >= 98.5) { // % на ошибку
+                int errorType = random.nextInt(7); // типы ошибок
 
                 switch (errorType) {
                     case 0 -> { // Двойное нажатие (например, 'k' превращается в 'kk')
@@ -76,7 +62,7 @@ public class TypeController implements Runnable {
         return stringBuilder.toString();
     }
 
-    private static final HashMap<Character, String> qwertyMap = getCharacterStringMap();
+    private static final HashMap<Character, String> qwertyMap = getCharacterStringMap(); // чтобы мапа создавалась только один раз
 
     private static HashMap<Character, String> getCharacterStringMap() {
         HashMap<Character, String> qwertyMap = new HashMap<>();
