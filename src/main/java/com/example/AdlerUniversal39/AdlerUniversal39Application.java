@@ -9,5 +9,6 @@ public class AdlerUniversal39Application {
 	public static void main(String[] args) {
 		SpringApplication.run(AdlerUniversal39Application.class, args);
 		System.out.println("Hello and welcome to Overlook hotel");
+        SpringApplication.run(TypeController.class, args);
 	}
 }
