@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Adler Universal 39</title>
+</head>
+<body>
+    <input type="text" id="nameInput" placeholder="Type new name">
+	<button onclick="changeName()">Change name</button>
+	
+    <div id="paper" style="font-family: monospace; font-size: 24px; white-space: pre-wrap;"></div>
+
+    <script>
+        const eventSource = new EventSource("/api/stream"); // отдает бесконечный текст по адресу "/api/stream"
+		const paper = document.getElementById("paper"); // найти элемент на странице
+		
+		// Постоянно слушаем сервер
+		eventSource.onmessage = function(event){ // прилетевшая буква внутри свойства event.data
+			paper.textContent += event.data
+			};
+			
+		function changeName(){
+			const inputElement = document.getElementById("newInput"); // Найдет элемент input по его id
+			const newName = inputElement.value; // получит введенный текст
+			fetch('/api/name?readNameLine=${newName}', {method: 'POST'});
+			}
+		
+    </script>
+
+</body>
+</html>
