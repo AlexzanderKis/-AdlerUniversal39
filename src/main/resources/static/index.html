@@ -3,29 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <title>Adler Universal 39</title>
+    <style>
+        body {
+            background-color: #fdfdfd;
+            padding: 20px;
+            font-family: monospace;
+            display: flex;
+            align-items: left;
+            flex-direction: column; /* Элементы (кнопки и бумага) идут сверху вниз */
+            height: 100vh; /* 100vh = 100% от высоты окна браузера */
+            margin: 0;
+            box-sizing: border-box; /* Чтобы отступы не выдавили страницу за пределы экрана */
+        }
+        .controls {
+            margin-bottom: 20px;
+        }
+        /* Стилизуем наш div как лист бумаги */
+        #paper {
+            background-color: #fdfdfd; // цвет поля текста
+            padding: 30px;
+            max-width: auto; /* Ограничиваем ширину "печатной зоны" */
+            margin-left: auto; /* Автоматически отталкиваем блок от левого края экрана */
+            margin-right: auto; /* Автоматически отталкиваем блок от правого края экрана */
+            text-align: left; /* Жестко фиксируем текст по левому краю внутри самого блока */
+            height: auto;
+            width: 100%;
+            margin: 0 auto;
+            overflow-y: auto;
+            font-family: 'Courier New', Courier, monospace; /* Шрифт печатной машинки */
+            font-size: 18px;
+            white-space: pre-wrap; /* Сохраняем переносы строк */
+<!--            border: 1px solid #ccc;-->
+<!--            box-shadow: 5px 5px 15px rgba(0,0,0,0.2);-->
+            line-height: 1.5;
+        }
+    </style>
 </head>
 <body>
-    <input type="text" id="nameInput" placeholder="Type new name">
+<div class="controls">
+<label for="nameInput"></label><input type="text" size="30" id="nameInput" placeholder="You've always been the caretaker.">
 	<button onclick="changeName()">Change name</button>
-	
-    <div id="paper" style="font-family: monospace; font-size: 24px; white-space: pre-wrap;"></div>
+</div>
+    <div id="paper"></div>
 
-    <script>
-        const eventSource = new EventSource("/api/stream"); // отдает бесконечный текст по адресу "/api/stream"
+    <script> // Постоянно слушаем сервер и выводим буквы
+        const eventSource = new EventSource("/api/stream");
 		const paper = document.getElementById("paper"); // найти элемент на странице
-		
+
 		// Постоянно слушаем сервер
 		eventSource.onmessage = function(event){ // прилетевшая буква внутри свойства event.data
-			paper.textContent += event.data
+			paper.textContent += event.data;
+			paper.scrollTop = paper.scrollHeight;
 			};
-			
-		function changeName(){
-			const inputElement = document.getElementById("newInput"); // Найдет элемент input по его id
-			const newName = inputElement.value; // получит введенный текст
-			fetch('/api/name?readNameLine=${newName}', {method: 'POST'});
-			}
-		
-    </script>
 
+		function changeName(){ // Отправляем новое имя по клику кнопки
+			const inputElement = document.getElementById("nameInput"); // Найдет элемент input по его id
+			const newName = inputElement.value; // получит введенный текст
+			fetch(`/api/name?readNameLine=${newName}`, {method: 'POST'}); // REST API somehow
+			}
+    </script>
 </body>
 </html>

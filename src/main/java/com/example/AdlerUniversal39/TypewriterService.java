@@ -23,12 +23,12 @@ public class TypewriterService {
         char[] chars = textLine.toCharArray();
         for (char c : chars) { // проходим по массиву из букв
             double errorChance = random.nextDouble(1, 100); // Генерирует от 1 до 100
-            if (errorChance >= 98.5) { // % на ошибку
+            if (errorChance >= 98) { // % на ошибку
                 int errorType = random.nextInt(7); // типы ошибок
 
                 switch (errorType) {
                     case 0 -> { // Двойное нажатие (например, 'k' превращается в 'kk')
-                        if (Character.isLetter(c)) {
+                        if (Character.isLetter(c) && !Character.isSpaceChar(c)) {
                             stringBuilder.repeat(c, 2); // before Java 21 -> stringBuilder.append(c).append(c);
                         } else {
                             stringBuilder.append(c);
